@@ -102,3 +102,9 @@ body {
   font-family: "UefaNeoBold";
   src: url("uefaneobold.woff");
 }
+
+.Goool {
+  position: absolute;
+  left: 0;
+  top: 0;
+}

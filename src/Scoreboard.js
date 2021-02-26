@@ -3,6 +3,9 @@ import './Scoreboard.css';
 import manchester from './manchester-united.svg'
 import shakhtar from './shakhtar.svg'
 import background from './background.jpg';
+import goool from './goool.gif';
+
+const GooolTimeout = 5000;
 
 class Scoreboard extends React.Component {
   constructor() {
@@ -15,7 +18,8 @@ class Scoreboard extends React.Component {
       awayGoals: 0,
       score: '0-0',
       homeScorers: [],
-      awayScorers: []
+      awayScorers: [],
+      isGoal: false
     }
 
     setTimeout(() => this.incrementTime(), 1000);
@@ -65,25 +69,37 @@ class Scoreboard extends React.Component {
             </ul>
           </div>
         </footer>
+        {this.state.isGoal && (<div className="Goool">
+          <img src={goool} alt="goool" width="480" height="320"></img>
+        </div>)}
       </div>
     );
   }
 
   homeGoal() {
-    let {homeGoals, homeScorers, score} = this.state;
+    let {homeGoals, homeScorers, score, isGoal} = this.state;
     homeGoals++;
     score = `${homeGoals}-${this.state.awayGoals}`;
     homeScorers.push(`${this.state.timer} (${score})`);
-    this.setState({homeGoals, homeScorers, score});
+    isGoal = true;
+    this.setState({homeGoals, homeScorers, score, isGoal}, () => setTimeout(() => {
+      let {isGoal} = this.state;
+      isGoal = false;
+      this.setState({isGoal});
+    }, GooolTimeout));
   }
   
   awayGoal() {
-    let {awayGoals, awayScorers, score} = this.state;
+    let {awayGoals, awayScorers, score, isGoal} = this.state;
     awayGoals++;
     score = `${this.state.homeGoals}-${awayGoals}`;
     awayScorers.push(`${this.state.timer} (${score})`);
-    this.setState({awayGoals, awayScorers, score});
-    // awayScorers.push(`${renderTime()} (${renderScore()})`);
+    isGoal = true;
+    this.setState({awayGoals, awayScorers, score, isGoal}, () => setTimeout(() => {
+      let {isGoal} = this.state;
+      isGoal = false;
+      this.setState({isGoal});
+    }, GooolTimeout));
   }
 
   renderScore() {
