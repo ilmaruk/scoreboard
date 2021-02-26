@@ -70,6 +70,7 @@ body {
   max-width: 230px;
   float: left;
   font-size: 20px;
+  text-shadow: 1px 1px black;
 }
 
 .HomeScorers {
