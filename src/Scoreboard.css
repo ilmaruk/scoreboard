@@ -1,0 +1,97 @@
+.Scoreboard {
+  width: 480px;
+  max-width: 480px;
+  height: 320px;
+  max-height: 320px;
+}
+
+.Header {
+  padding-top: 20px;
+}
+
+.CrestBox {
+  width: 140px;
+  max-width: 140px;
+  height: 120px;
+  max-height: 120px;
+  float: left;
+  text-align: center;
+}
+
+.HomeCrest {
+  padding-left: 20px;
+}
+
+.AwayCrest {
+  padding-right: 20px;
+}
+
+.InfoBox {
+  width: 160px;
+  max-width: 160px;
+  height: 120px;
+  max-height: 120px;
+  float: left;
+  color: white;
+  text-align: center;
+}
+
+.TimeBox {
+  font-family: "UefaNeoReg";
+  font-size: 30px;
+  color: teal;
+}
+
+.ScoreBox {
+  font-family: "UefaNeoBold";
+  font-size: 70px;
+}
+
+.Scoreboard-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.Crest {
+  max-height: 120px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .Scoreboard-logo {
+    animation: Scoreboard-logo-spin infinite 20s linear;
+  }
+}
+
+.Scoreboard-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.Scoreboard-link {
+  color: #61dafb;
+}
+
+@keyframes Scoreboard-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@font-face {
+  font-family: "UefaNeoReg";
+  src: url("uefaneoreg.woff");
+}
+
+@font-face {
+  font-family: "UefaNeoBold";
+  src: url("uefaneobold.woff");
+}
