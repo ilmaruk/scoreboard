@@ -52,14 +52,16 @@ class Scoreboard extends React.Component {
         <footer>
           <div className="ScorersBox HomeScorers">
             <ul>
-              <li>06:23 (1-2)</li>
+              {this.state.homeScorers.map(goal => (
+                <li>{goal}</li>
+              ))}
             </ul>
           </div>
           <div className="ScorersBox AwayScorers">
             <ul>
-              <li>01:23 (0-1)</li>
-              <li>04:15 (0-2)</li>
-              <li>09:45 (1-3)</li>
+            {this.state.awayScorers.map(goal => (
+                <li>{goal}</li>
+              ))}
             </ul>
           </div>
         </footer>
@@ -71,7 +73,7 @@ class Scoreboard extends React.Component {
     let {homeGoals, homeScorers, score} = this.state;
     homeGoals++;
     score = `${homeGoals}-${this.state.awayGoals}`;
-    homeScorers.push(`${score} (${this.state.timer})`);
+    homeScorers.push(`${this.state.timer} (${score})`);
     this.setState({homeGoals, homeScorers, score});
   }
   
@@ -79,7 +81,7 @@ class Scoreboard extends React.Component {
     let {awayGoals, awayScorers, score} = this.state;
     awayGoals++;
     score = `${this.state.homeGoals}-${awayGoals}`;
-    awayScorers.push(`${score} (${this.state.timer})`);
+    awayScorers.push(`${this.state.timer} (${score})`);
     this.setState({awayGoals, awayScorers, score});
     // awayScorers.push(`${renderTime()} (${renderScore()})`);
   }
