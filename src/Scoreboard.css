@@ -48,6 +48,13 @@ body {
 .TimeBox {
   font-size: 30px;
   color: teal;
+  cursor: pointer;
+}
+
+.ExtraTimeBox {
+  margin-left: 5px;
+  color: pink;
+  font-size: 60%;
 }
 
 .ScoreBox {
