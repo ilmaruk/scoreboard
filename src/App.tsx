@@ -1,25 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+// import logo from './logo.svg';
 import './App.css';
+import { TeamLogo } from './components/TeamLogo'
+import { Score } from './components/Score'
 
 function App() {
+  const [home, setHome] = useState(0);
+  const [away, setAway] = useState(0);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <header style={{ display: 'flex' }}>
+      <TeamLogo label="Home" onClick={() => setHome(home + 1)} />
+      <Score home={home} away={away} />
+      <TeamLogo label="Away" onClick={() => setAway(away + 1)} />
+    </header>
   );
 }
 
