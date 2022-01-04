@@ -10,3 +10,7 @@ body {
 #score {
   cursor: pointer;
 }
+
+#clock {
+  cursor: pointer;
+}
