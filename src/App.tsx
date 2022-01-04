@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import { TeamLogo } from './components/TeamLogo'
 import { Score } from './components/Score'
@@ -17,6 +16,15 @@ const formatTime = (millis: number): string => {
   return minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
 }
 
+const formatScore = (home: number, away: number): string => {
+  return `${home} - ${away}`;
+}
+
+interface Scorer {
+  time: number;
+  score: string;
+}
+
 function App() {
   // Score
   const [homeGoals, setHomeGoals] = useState(0);
@@ -25,14 +33,26 @@ function App() {
   const [clockAccumulated, setClockAccumulated] = useState(0);
   const [clockStartedAt, setClockStartedAt] = useState(0);
   const [time, setTime] = useState(formatTime(0));
+  // Goal scorers
+  const [homeScorers, setHomeScorers] = useState([] as Scorer[]);
+  const [awayScorers, setAwayScorers] = useState([] as Scorer[]);
   // Timer to update the clock every second
+  // TODO: see warning and improve
   let timer: NodeJS.Timeout;
 
   const homeGoal = (): void => {
+    // Only set if the clock is running
+    if (clockStartedAt === 0) {
+      return;
+    }
     setHomeGoals(homeGoals + 1);
   }
 
   const awayGoal = (): void => {
+    // Only set if the clock is running
+    if (clockStartedAt === 0) {
+      return;
+    }
     setAwayGoals(awayGoals + 1);
   }
 
@@ -45,6 +65,10 @@ function App() {
 
   const now = (): number => {
     return new Date().getTime();
+  }
+
+  const clockTime = (): number => {
+    return clockAccumulated + now() - clockStartedAt;
   }
 
   const toggleClock = async (): Promise<void> => {
@@ -65,8 +89,7 @@ function App() {
   }
 
   const updateClock = (): void => {
-    const accu = clockAccumulated + now() - clockStartedAt;
-    setTime(formatTime(accu));
+    setTime(formatTime(clockTime()));
     timer = setTimeout(() => {
       updateClock();
     }, 1000);
@@ -84,6 +107,35 @@ function App() {
     }, 1000);
     return () => clearTimeout(timer);
   }, [clockStartedAt]);
+
+  useEffect(() => {
+    if (homeGoals === 0) {
+      // Nothing to do
+      return;
+    }
+    const scorer: Scorer = {
+      time: clockTime(),
+      score: formatScore(homeGoals, awayGoals)
+    };
+    setHomeScorers((scorers) => [...scorers, scorer]);
+  }, [homeGoals]);
+
+  useEffect(() => {
+    if (awayGoals === 0) {
+      // Nothing to do
+      return;
+    }
+    const scorer: Scorer = {
+      time: clockTime(),
+      score: formatScore(homeGoals, awayGoals)
+    };
+    setAwayScorers((scorers) => [...scorers, scorer]);
+  }, [awayGoals]);
+
+  useEffect(() => {
+    console.log('Home scorers', homeScorers);
+    console.log('Away scorers', awayScorers);
+  }, [homeScorers, awayScorers])
 
   return (
     <>

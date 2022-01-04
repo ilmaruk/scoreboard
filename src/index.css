@@ -29,6 +29,7 @@ header {
 
 .team-logo {
   text-align: center;
+  cursor: pointer;
 }
 
 .team-logo button {
