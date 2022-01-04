@@ -1,7 +1,7 @@
-export const Score = ({ home, away }: { home: number, away: number }) => {
+export const Score = ({ home, away, onClick }: { home: number, away: number, onClick: () => void }) => {
     return (
         <>
-        <div>{home} - {away}</div>
+        <div id="score" onClick={onClick}>{home} - {away}</div>
         </>
     );
 }
