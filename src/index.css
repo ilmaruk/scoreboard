@@ -7,10 +7,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#score {
+header {
+  width: auto;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+#data {
   cursor: pointer;
+  text-align: center;
+}
+
+#score {
+  font-size: 3rem;
 }
 
 #clock {
-  cursor: pointer;
+  font-size: 2rem;
+}
+
+.team-logo {
+  text-align: center;
+}
+
+.team-logo button {
+  height: 100%;
 }

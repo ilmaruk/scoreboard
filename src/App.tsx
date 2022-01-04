@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { TeamLogo } from './components/TeamLogo'
 import { Score } from './components/Score'
+import { confirm } from "react-confirm-box";
 
 /**
  * Given an accumulated time in milliseconds,
@@ -35,8 +36,8 @@ function App() {
     setAwayGoals(awayGoals + 1);
   }
 
-  const resetGoals = (): void => {
-    if (window.confirm('Do you want to reset the score?')) {
+  const resetGoals = async (): Promise<void> => {
+    if (await confirm('Reset the score?')) {
       setHomeGoals(0);
       setAwayGoals(0);  
     }
@@ -46,7 +47,7 @@ function App() {
     return new Date().getTime();
   }
 
-  const toggleClock = (): void => {
+  const toggleClock = async (): Promise<void> => {
     if (clockStartedAt === 0) {
       // The clock is turned off, so turn on
       setClockStartedAt(now());
@@ -54,7 +55,7 @@ function App() {
       // The clock is turned on, so turn off
       setClockStartedAt(0);
       const currentTime = now();
-      if (window.confirm('Reset the clock?')) {
+      if (await confirm('Reset the clock?')) {
         setClockAccumulated(0);
         setTime(formatTime(0));
       } else {
@@ -86,12 +87,18 @@ function App() {
 
   return (
     <>
-      <header style={{ display: 'flex' }}>
-        <TeamLogo label="Home" onClick={homeGoal} />
-        <Score home={homeGoals} away={awayGoals} onClick={resetGoals} />
-        <TeamLogo label="Away" onClick={awayGoal} />
+      <header>
+        <div id="home">
+          <TeamLogo label="Home" onClick={homeGoal} />
+        </div>
+        <div id="data">
+          <Score home={homeGoals} away={awayGoals} onClick={resetGoals} />
+          <div id="clock" onClick={toggleClock} title="Click to toggle the clock">{time}</div>
+        </div>
+        <div id="away">
+          <TeamLogo label="Away" onClick={awayGoal} />
+        </div>
       </header>
-      <div id="clock" onClick={toggleClock}>{time}</div>
     </>
   );
 }

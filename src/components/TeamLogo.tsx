@@ -1,7 +1,8 @@
 export const TeamLogo = ({ label, onClick }: { label: string, onClick: () => void }) => {
     return (
-        <>
-        <button onClick={onClick}>{label}</button>
-        </>
+        <div className="team-logo">
+            <button onClick={onClick}>{label}</button>
+            <div>{label}</div>
+        </div>
     );
 }
