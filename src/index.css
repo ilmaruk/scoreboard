@@ -7,7 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-header {
+main {
   width: auto;
   display: flex;
   justify-content: space-evenly;

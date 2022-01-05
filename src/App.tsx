@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { TeamLogo } from './components/TeamLogo'
-import { Score } from './components/Score'
+import { ScoreBox } from './components/ScoreBox'
+import { Score } from './score';
 import { confirm } from "react-confirm-box";
 
 /**
@@ -27,15 +28,11 @@ interface Scorer {
 
 function App() {
   // Score
-  const [homeGoals, setHomeGoals] = useState(0);
-  const [awayGoals, setAwayGoals] = useState(0);
+  const [score, setScore] = useState({ home: 0, away: 0 } as Score);
   // Clock
   const [clockAccumulated, setClockAccumulated] = useState(0);
   const [clockStartedAt, setClockStartedAt] = useState(0);
   const [time, setTime] = useState(formatTime(0));
-  // Goal scorers
-  const [homeScorers, setHomeScorers] = useState([] as Scorer[]);
-  const [awayScorers, setAwayScorers] = useState([] as Scorer[]);
   // Timer to update the clock every second
   // TODO: see warning and improve
   let timer: NodeJS.Timeout;
@@ -45,7 +42,7 @@ function App() {
     if (clockStartedAt === 0) {
       return;
     }
-    setHomeGoals(homeGoals + 1);
+    setScore({ ...score, home: score.home + 1 });
   }
 
   const awayGoal = (): void => {
@@ -53,13 +50,12 @@ function App() {
     if (clockStartedAt === 0) {
       return;
     }
-    setAwayGoals(awayGoals + 1);
+    setScore({ ...score, away: score.away + 1 });
   }
 
   const resetGoals = async (): Promise<void> => {
     if (await confirm('Reset the score?')) {
-      setHomeGoals(0);
-      setAwayGoals(0);  
+      setScore({ home: 0, away: 0 });
     }
   }
 
@@ -108,49 +104,20 @@ function App() {
     return () => clearTimeout(timer);
   }, [clockStartedAt]);
 
-  useEffect(() => {
-    if (homeGoals === 0) {
-      // Nothing to do
-      return;
-    }
-    const scorer: Scorer = {
-      time: clockTime(),
-      score: formatScore(homeGoals, awayGoals)
-    };
-    setHomeScorers((scorers) => [...scorers, scorer]);
-  }, [homeGoals]);
-
-  useEffect(() => {
-    if (awayGoals === 0) {
-      // Nothing to do
-      return;
-    }
-    const scorer: Scorer = {
-      time: clockTime(),
-      score: formatScore(homeGoals, awayGoals)
-    };
-    setAwayScorers((scorers) => [...scorers, scorer]);
-  }, [awayGoals]);
-
-  useEffect(() => {
-    console.log('Home scorers', homeScorers);
-    console.log('Away scorers', awayScorers);
-  }, [homeScorers, awayScorers])
-
   return (
     <>
-      <header>
+      <main>
         <div id="home">
           <TeamLogo label="Home" onClick={homeGoal} />
         </div>
         <div id="data">
-          <Score home={homeGoals} away={awayGoals} onClick={resetGoals} />
+          <ScoreBox score={score} onClick={resetGoals} />
           <div id="clock" onClick={toggleClock} title="Click to toggle the clock">{time}</div>
         </div>
         <div id="away">
           <TeamLogo label="Away" onClick={awayGoal} />
         </div>
-      </header>
+      </main>
     </>
   );
 }
