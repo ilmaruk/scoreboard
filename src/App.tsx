@@ -1,45 +1,38 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { TeamLogo } from './components/TeamLogo'
+import { TeamBox } from './components/TeamBox'
 import { ScoreBox } from './components/ScoreBox'
 import { Score } from './score';
 import { confirm } from "react-confirm-box";
+import { Team } from './team';
+import { ClockBox } from './components/ClockBox';
+import { Clock } from './clock';
 
-/**
- * Given an accumulated time in milliseconds,
- * returns a formatted string mm:ss.
- * @param millis The accumulated time in milliseconds
- */
-const formatTime = (millis: number): string => {
-  const accu = Math.round(millis / 1000);
-  const seconds = accu % 60;
-  const minutes = Math.floor(accu / 60);
-  return minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+const home: Team = {
+  name: 'Genoa 1893 CFC',
+  logoUrl: 'https://upload.wikimedia.org/wikipedia/en/6/6c/Genoa_C.F.C._logo.svg'
 }
 
-const formatScore = (home: number, away: number): string => {
-  return `${home} - ${away}`;
-}
-
-interface Scorer {
-  time: number;
-  score: string;
+const away: Team = {
+  name: 'UC Sampdoria',
+  logoUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d2/U.C._Sampdoria_logo.svg'
 }
 
 function App() {
   // Score
   const [score, setScore] = useState({ home: 0, away: 0 } as Score);
   // Clock
-  const [clockAccumulated, setClockAccumulated] = useState(0);
-  const [clockStartedAt, setClockStartedAt] = useState(0);
-  const [time, setTime] = useState(formatTime(0));
+  const [clock, setClock] = useState({ startedAt: 0, offset: 0, accumulated: 0 } as Clock);
+  // const [clockAccumulated, setClockAccumulated] = useState(0);
+  // const [clockStartedAt, setClockStartedAt] = useState(0);
+  // const [time, setTime] = useState(formatTime(0));
   // Timer to update the clock every second
   // TODO: see warning and improve
   let timer: NodeJS.Timeout;
 
   const homeGoal = (): void => {
     // Only set if the clock is running
-    if (clockStartedAt === 0) {
+    if (clock.startedAt === 0) {
       return;
     }
     setScore({ ...score, home: score.home + 1 });
@@ -47,7 +40,7 @@ function App() {
 
   const awayGoal = (): void => {
     // Only set if the clock is running
-    if (clockStartedAt === 0) {
+    if (clock.startedAt === 0) {
       return;
     }
     setScore({ ...score, away: score.away + 1 });
@@ -63,60 +56,52 @@ function App() {
     return new Date().getTime();
   }
 
-  const clockTime = (): number => {
-    return clockAccumulated + now() - clockStartedAt;
-  }
-
   const toggleClock = async (): Promise<void> => {
-    if (clockStartedAt === 0) {
+    if (clock.startedAt === 0) {
       // The clock is turned off, so turn on
-      setClockStartedAt(now());
+      setClock({ ...clock, startedAt: now() });
     } else {
       // The clock is turned on, so turn off
-      setClockStartedAt(0);
-      const currentTime = now();
+      if (timer) {
+        clearTimeout(timer);
+      }
       if (await confirm('Reset the clock?')) {
-        setClockAccumulated(0);
-        setTime(formatTime(0));
+        setClock({ startedAt: 0, offset: 0, accumulated: 0 });
       } else {
-        setClockAccumulated(clockAccumulated + currentTime - clockStartedAt);
+        setClock({ ...clock, startedAt: 0, offset: clock.accumulated });
       }
     }
   }
 
   const updateClock = (): void => {
-    setTime(formatTime(clockTime()));
+    setClock({ ...clock, accumulated: clock.offset + now() - clock.startedAt });
     timer = setTimeout(() => {
       updateClock();
     }, 1000);
   }
 
   useEffect(() => {
-    if (clockStartedAt === 0) {
-      if (timer) {
-        clearTimeout(timer);
-      }
+    if (timer) {
+      clearTimeout(timer);
+    }
+    if (clock.startedAt === 0) {
       return;
     }
     timer = setTimeout(() => {
       updateClock();
     }, 1000);
     return () => clearTimeout(timer);
-  }, [clockStartedAt]);
+  }, [clock]);
 
   return (
     <>
       <main>
-        <div id="home">
-          <TeamLogo label="Home" onClick={homeGoal} />
-        </div>
+        <TeamBox id="home" team={home} onClick={homeGoal} />
         <div id="data">
+          <ClockBox clock={clock} onClick={toggleClock} />
           <ScoreBox score={score} onClick={resetGoals} />
-          <div id="clock" onClick={toggleClock} title="Click to toggle the clock">{time}</div>
         </div>
-        <div id="away">
-          <TeamLogo label="Away" onClick={awayGoal} />
-        </div>
+        <TeamBox id="away" team={away} onClick={awayGoal} />
       </main>
     </>
   );
