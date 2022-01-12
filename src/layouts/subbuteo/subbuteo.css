@@ -41,6 +41,11 @@ body {
     padding: 1vw;
 }
 
+.title {
+    width: 100%;
+    margin-bottom: 4vw;
+}
+
 .team {
     width: 70%;
 }
@@ -49,7 +54,7 @@ body {
     width: 30%;
 }
 
-.team, .score {
+.title, .score {
     cursor: pointer;
 }
 

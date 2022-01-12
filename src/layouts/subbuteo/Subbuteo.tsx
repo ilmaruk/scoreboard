@@ -25,11 +25,14 @@ export const Subbuteo = ({ match }: { match: Match }) => {
     return (
         <>
             <div className="row">
-                <div className="cell team" onClick={() => goFullscreen(match.fullScreen) }>{match.homeTeam.name}</div>
+                <div className="cell title" onClick={() => goFullscreen(match.fullScreen) }>{match.title}</div>
+            </div>
+            <div className="row">
+                <div className="cell team">{match.homeTeam.name}</div>
                 <div className="cell score" onClick={() => goal('home')} onDoubleClick={resetScore}><span className={last === 'home' ? 'last' : ''}>{score.home}</span></div>
             </div>
             <div className="row">
-                <div className="cell team" onClick={() => goFullscreen(match.fullScreen) }>{match.awayTeam.name}</div>
+                <div className="cell team">{match.awayTeam.name}</div>
                 <div className="cell score" onClick={() => goal('away')}><span className={last === 'away' ? 'last' : ''}>{score.away}</span></div>
             </div>
         </>

@@ -7,6 +7,7 @@ export interface Team {
 export interface Match {
     layout: string;
     fullScreen?: boolean;
+    title?: string;
     homeTeam: Team;
     awayTeam: Team;
 }

@@ -9,6 +9,7 @@ import { Match } from "./models/match";
 const match: Match = {
     layout: 'subbuteo',
     fullScreen: true,
+    title: 'World Cup Final',
     homeTeam: {
         name: 'Marulla'
     },
