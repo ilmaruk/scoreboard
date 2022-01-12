@@ -41,11 +41,11 @@ export const Subbuteo = ({ match }: { match: Match }) => {
             </div>
             <div className="row">
                 <div className="cell team">{match.homeTeam.name}</div>
-                <div className="cell score" onClick={() => setScore(scoreGoal(score, 'home'))} onDoubleClick={resetScore}><span className={score.last === 'home' ? 'last' : ''}>{score.home}</span></div>
+                <div className="cell score" onClick={() => setScore(scoreGoal(score, 'home', clockIsRunning(clock)))} onDoubleClick={resetScore}><span className={score.last === 'home' ? 'last' : ''}>{score.home}</span></div>
             </div>
             <div className="row">
                 <div className="cell team">{match.awayTeam.name}</div>
-                <div className="cell score" onClick={() => setScore(scoreGoal(score, 'away'))} onDoubleClick={resetScore}><span className={score.last === 'away' ? 'last' : ''}>{score.away}</span></div>
+                <div className="cell score" onClick={() => setScore(scoreGoal(score, 'away', clockIsRunning(clock)))} onDoubleClick={resetScore}><span className={score.last === 'away' ? 'last' : ''}>{score.away}</span></div>
             </div>
         </>
     );
