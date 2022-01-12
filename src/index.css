@@ -1,4 +1,12 @@
-@import url(//db.onlinewebfonts.com/c/a156ca0cab1c4a0b79463ed53604bac6?family=Radikal);
+@font-face {
+  font-family: "Radikal";
+  src: url("//db.onlinewebfonts.com/t/a156ca0cab1c4a0b79463ed53604bac6.eot"); /* IE9*/
+  src: url("//db.onlinewebfonts.com/t/a156ca0cab1c4a0b79463ed53604bac6.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("//db.onlinewebfonts.com/t/a156ca0cab1c4a0b79463ed53604bac6.woff2") format("woff2"), /* chrome firefox */
+  url("//db.onlinewebfonts.com/t/a156ca0cab1c4a0b79463ed53604bac6.woff") format("woff"), /* chrome firefox */
+  url("//db.onlinewebfonts.com/t/a156ca0cab1c4a0b79463ed53604bac6.ttf") format("truetype"), /* chrome firefox opera Safari, Android, iOS 4.2+*/
+  url("//db.onlinewebfonts.com/t/a156ca0cab1c4a0b79463ed53604bac6.svg#Radikal") format("svg"); /* iOS 4.1- */
+}
 
 body {
   margin: 0;
