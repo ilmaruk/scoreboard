@@ -1,12 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+// import './index.css';
+// import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Scoreboard } from "./Scoreboard";
+import { Match } from "./models/match";
+
+const match: Match = {
+    layout: 'subbuteo',
+    fullScreen: true,
+    homeTeam: {
+        name: 'Marulla'
+    },
+    awayTeam: {
+        name: 'Chico'
+    }
+}
+
+const layout = (match: Match) => {
+    switch (match.layout) {
+        case 'subbuteo':
+        default:
+            return (<Scoreboard match={match}/>);
+    }
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      {layout(match)}
   </React.StrictMode>,
   document.getElementById('root')
 );
