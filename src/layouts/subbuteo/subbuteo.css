@@ -1,63 +1,82 @@
 @font-face {
-    font-family: "Dot Matrix";
-    src: url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.eot");
-    src: url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.eot?#iefix") format("embedded-opentype"),
-    url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.woff2") format("woff2"),
-    url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.woff") format("woff"),
-    url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.ttf") format("truetype"),
-    url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.svg#Dot Matrix") format("svg");
+  font-family: "Dot Matrix";
+  src: url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.eot");
+  src: url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.eot?#iefix")
+      format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.woff2")
+      format("woff2"),
+    url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.woff")
+      format("woff"),
+    url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.ttf")
+      format("truetype"),
+    url("//db.onlinewebfonts.com/t/64d5e919dd297465bd1e912b404a8576.svg#Dot Matrix")
+      format("svg");
 }
 
-html, body, #root {
-    height: 100%;
+html,
+body,
+#root {
+  height: 100%;
 }
 
 body {
-    background-color: #36454f;
-    font-family: 'Dot Matrix', serif;
-    color: #eee;
-    font-size: 6vw;
+  background-color: #36454f;
+  font-family: "Dot Matrix", serif;
+  color: #eee;
+  font-size: 6vw;
 }
 
 #root {
-    display: flex;
-    flex-direction: column;
-    gap: 2vw;
-    justify-content: center;
-    height: 100%;
-    width: 80%;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+  justify-content: center;
+  height: 100%;
+  width: 80%;
+  margin: auto;
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
-    gap: 2vw;
-    text-align: center;
+  display: flex;
+  flex-direction: row;
+  gap: 2vw;
+  text-align: center;
 }
 
 .cell {
-    border: solid 1px black;
-    padding: 1vw;
+  border: solid 1px black;
+  padding: 1vw;
 }
 
 .title {
-    width: 100%;
-    margin-bottom: 4vw;
+  width: 75%;
+  margin-bottom: 4vw;
+}
+
+.clock {
+  width: 25%;
+}
+
+.title,
+.clock {
+  margin-bottom: 4vw;
+  font-size: 4.5vw;
 }
 
 .team {
-    width: 70%;
+  width: 75%;
 }
 
 .score {
-    width: 30%;
+  width: 25%;
 }
 
-.title, .score {
-    cursor: pointer;
+.title,
+.clock,
+.score {
+  cursor: pointer;
 }
 
 .last {
-    color: goldenrod;
+  color: goldenrod;
 }
