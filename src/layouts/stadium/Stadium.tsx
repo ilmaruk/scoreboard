@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import './App.css';
-import { TeamBox } from './components/TeamBox'
-import { ScoreBox } from './components/ScoreBox'
-import { Score } from './score';
+import './Stadium.css';
+import { TeamBox } from '../../components/TeamBox'
+import { ScoreBox } from '../../components/ScoreBox'
+import { Score } from '../../score';
 import { confirm } from "react-confirm-box";
-import { Team } from './team';
-import { ClockBox } from './components/ClockBox';
-import { Clock } from './clock';
+import { Team } from '../../team';
+import { ClockBox } from '../../components/ClockBox';
+import { Clock } from '../../clock';
+import { Match } from '../../models/match';
 
 const home: Team = {
   name: 'Genoa 1893 CFC',
@@ -18,7 +19,7 @@ const away: Team = {
   logoUrl: 'https://upload.wikimedia.org/wikipedia/en/d/d2/U.C._Sampdoria_logo.svg'
 }
 
-function App() {
+export const Stadium = ({ match }: { match: Match }) => {
   // Score
   const [score, setScore] = useState({ home: 0, away: 0 } as Score);
   // Clock
@@ -106,5 +107,3 @@ function App() {
     </>
   );
 }
-
-export default App;

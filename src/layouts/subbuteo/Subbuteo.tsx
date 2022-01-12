@@ -1,4 +1,4 @@
-import './subbuteo.css';
+import './Subbuteo.css';
 import { Match } from "../../models/match";
 import { useState, useEffect } from "react";
 import { scoreInit, scoreGoal } from '../../score';
