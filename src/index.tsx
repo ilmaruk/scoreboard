@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import { Scoreboard } from "./Scoreboard";
 import { Match } from "./models/match";
-import { Stadium } from './layouts/stadium/Stadium';
 
 const match: Match = {
     layout: 'subbuteo',
@@ -19,19 +18,9 @@ const match: Match = {
     }
 }
 
-const layout = (match: Match) => {
-    switch (match.layout) {
-        case 'stadium':
-            return (<Stadium match={match} />);
-        case 'subbuteo':
-        default:
-            return (<Scoreboard match={match} />);
-    }
-}
-
 ReactDOM.render(
   <React.StrictMode>
-      {layout(match)}
+      <Scoreboard match={match} />
   </React.StrictMode>,
   document.getElementById('root')
 );

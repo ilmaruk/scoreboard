@@ -1,14 +1,12 @@
 import './Subbuteo.css';
 import { Match } from "../../models/match";
 import { useState, useEffect } from "react";
-import { scoreInit, scoreGoal } from '../../score';
+import { scoreInit, scoreGoal, Side } from '../../score';
 import { clockInit, clockFormat, clockToggle, clockUpdate, clockIsRunning } from '../../clock';
 
-export const Subbuteo = ({ match }: { match: Match }) => {
+export const Subbuteo = ({ match, toast }: { match: Match, toast: (message: string) => void }) => {
     const [score, setScore] = useState(scoreInit());
     const [clock, setClock] = useState(clockInit());
-
-    let timer: NodeJS.Timeout;
 
     const goFullscreen = async (fullScreen: boolean | undefined): Promise<void> => {
         if (!fullScreen) {
@@ -23,16 +21,25 @@ export const Subbuteo = ({ match }: { match: Match }) => {
         }
     }
 
+    const goal = (who: Side) => {
+        if (!clockIsRunning(clock)) {
+            // toast('The clock is not running');
+            toast('The score can only be updated when the clock is running!');
+            return;
+        }
+        setScore(scoreGoal(score, who));
+    }
+
     useEffect(() => {
         if (!clockIsRunning(clock)) {
           return;
         }
-        timer = setTimeout(() => {
+        const timer = setTimeout(() => {
           setClock(clockUpdate(clock));
         }, 1000);
         return () => clearTimeout(timer);
       }, [clock]);
-    
+
     return (
         <>
             <div className="row">
@@ -41,11 +48,11 @@ export const Subbuteo = ({ match }: { match: Match }) => {
             </div>
             <div className="row">
                 <div className="cell team">{match.homeTeam.name}</div>
-                <div className="cell score" onClick={() => setScore(scoreGoal(score, 'home', clockIsRunning(clock)))} onDoubleClick={resetScore}><span className={score.last === 'home' ? 'last' : ''}>{score.home}</span></div>
+                <div className="cell score" onClick={() => goal('home')} onDoubleClick={resetScore}><span className={score.last === 'home' ? 'last' : ''}>{score.home}</span></div>
             </div>
             <div className="row">
                 <div className="cell team">{match.awayTeam.name}</div>
-                <div className="cell score" onClick={() => setScore(scoreGoal(score, 'away', clockIsRunning(clock)))} onDoubleClick={resetScore}><span className={score.last === 'away' ? 'last' : ''}>{score.away}</span></div>
+                <div className="cell score" onClick={() => goal('away')} onDoubleClick={resetScore}><span className={score.last === 'away' ? 'last' : ''}>{score.away}</span></div>
             </div>
         </>
     );
