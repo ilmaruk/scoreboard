@@ -16,17 +16,17 @@
 html,
 body,
 #root {
+  background-color: #36454f;
   height: 100%;
 }
 
-body {
-  background-color: #36454f;
+#root {
   font-family: "Dot Matrix", serif;
   color: #eee;
   font-size: 6vw;
 }
 
-#root {
+.Subbuteo {
   display: flex;
   flex-direction: column;
   gap: 2vw;
@@ -36,47 +36,51 @@ body {
   margin: auto;
 }
 
-.row {
+.Subbuteo .row {
   display: flex;
   flex-direction: row;
   gap: 2vw;
   text-align: center;
 }
 
-.cell {
+.Subbuteo .cell {
   border: solid 1px black;
   padding: 1vw;
 }
 
-.title {
+.Subbuteo .title {
   width: 75%;
   margin-bottom: 4vw;
 }
 
-.clock {
+.Subbuteo .clock {
   width: 25%;
 }
 
-.title,
-.clock {
+.Subbuteo .title,
+.Subbuteo .clock {
   margin-bottom: 4vw;
   font-size: 4.5vw;
 }
 
-.team {
+.Subbuteo .team {
   width: 75%;
 }
 
-.score {
+.Subbuteo .title,
+.Subbuteo .team {
+  border-left: solid 3vw #28333b;
+  border-right: solid 3vw #28333b;
+}
+
+.Subbuteo .score {
   width: 25%;
 }
 
-.title,
-.clock,
-.score {
-  cursor: pointer;
+.Subbuteo .last {
+  color: goldenrod;
 }
 
-.last {
-  color: goldenrod;
+.Subbuteo .clickable {
+  cursor: default;
 }

@@ -9,7 +9,7 @@ const match: Match = {
     layout: 'subbuteo',
     // layout: 'stadium',
     fullScreen: true,
-    title: 'World Cup Final',
+    title: 'The Showdown',
     homeTeam: {
         name: 'Marulla'
     },

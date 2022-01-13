@@ -17,7 +17,7 @@
       format("svg"); /* iOS 4.1- */
 }
 
-body {
+.Stadium {
   margin: 0;
   font-family: Radikal, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
     "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -27,7 +27,7 @@ body {
   background-image: linear-gradient(to right, #3b98cd, #226d9e);
 }
 
-main {
+.Stadium main {
   width: auto;
   display: flex;
   justify-content: space-evenly;
@@ -35,24 +35,24 @@ main {
   height: 100%;
 }
 
-#data {
+.Stadium #data {
   cursor: pointer;
   text-align: center;
 }
 
-#score {
+.Stadium #score {
   font-size: 8rem;
 }
 
-#clock {
+.Stadium #clock {
   font-size: 5rem;
 }
 
-.team-box {
+.Stadium .team-box {
   text-align: center;
   cursor: pointer;
 }
 
-.team-box button {
+.Stadium .team-box button {
   border: none;
 }

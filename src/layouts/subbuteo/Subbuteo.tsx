@@ -42,17 +42,39 @@ export const Subbuteo = ({ match, toast }: { match: Match, toast: (message: stri
 
     return (
         <>
-            <div className="row">
-                <div className="cell title" onClick={() => goFullscreen(match.fullScreen) }>{match.title}</div>
-                <div className="cell clock" onClick={() => setClock(clockToggle(clock)) }>{clockFormat(clock)}</div>
-            </div>
-            <div className="row">
-                <div className="cell team">{match.homeTeam.name}</div>
-                <div className="cell score" onClick={() => goal('home')} onDoubleClick={resetScore}><span className={score.last === 'home' ? 'last' : ''}>{score.home}</span></div>
-            </div>
-            <div className="row">
-                <div className="cell team">{match.awayTeam.name}</div>
-                <div className="cell score" onClick={() => goal('away')} onDoubleClick={resetScore}><span className={score.last === 'away' ? 'last' : ''}>{score.away}</span></div>
+            <div className='Subbuteo'>
+                <div className="row clickable">
+                    <div
+                        className="cell title"
+                        title='Click/tap to go fullscreen'
+                        onClick={() => goFullscreen(match.fullScreen) }
+                    >{match.title}</div>
+                    <div
+                        className="cell clock"
+                        title='Click/tap to toggle the clock on/off'
+                        onClick={() => setClock(clockToggle(clock)) }
+                    >{clockFormat(clock)}</div>
+                </div>
+                <div className="row clickable"
+                     title='Click/tap to increment the home score; double click/tap to reset the score'
+                     onClick={() => goal('home')}
+                     onDoubleClick={resetScore}
+                >
+                    <div className="cell team">{match.homeTeam.name}</div>
+                    <div className="cell score">
+                        <span className={score.last === 'home' ? 'last' : ''}>{score.home}</span>
+                    </div>
+                </div>
+                <div className="row clickable"
+                     title='Click/tap to increment the away score; double click/tap to reset the score'
+                     onClick={() => goal('away')}
+                     onDoubleClick={resetScore}
+                >
+                    <div className="cell team">{match.awayTeam.name}</div>
+                    <div className="cell score">
+                        <span className={score.last === 'away' ? 'last' : ''}>{score.away}</span>
+                    </div>
+                </div>
             </div>
         </>
     );
