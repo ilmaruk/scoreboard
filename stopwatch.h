@@ -9,16 +9,16 @@ double _sw_elapsed;
 double _sw_started_at;
 double _sw_offset;
 
-// A sort of constructor
-void sw_init(unsigned int duration) {
-  _sw_duration = duration*1000;
+void sw_reset() {
   _sw_elapsed = .0;
   _sw_offset = .0;
   _sw_is_running = false;
 }
 
-void sw_reset() {
-  sw_init(_sw_duration);
+// A sort of constructor
+void sw_init(unsigned int duration) {
+  _sw_duration = duration*1000;
+  sw_reset();
 }
 
 void sw_start() {
