@@ -1,6 +1,8 @@
 #ifndef _IR_RECEIVER
 #define _IR_RECEIVER
 
+#include "config.h"
+
 #include "stopwatch.h"
 
 void ir_init(int pin) {
@@ -9,7 +11,7 @@ void ir_init(int pin) {
 
 void ir_handle_command() {
     switch (IrReceiver.decodedIRData.command) {
-      case 0xA8:
+      case IR_CMD_START_STOP:
         // Play button
         if (!sw_is_running()) {
           sw_start();
@@ -17,16 +19,16 @@ void ir_handle_command() {
           sw_pause();
         }
         break;
-      case 0xE0:
+      case IR_CMD_HOME_UP:
         // Arrow left (home +)
         break;
-      case 0x90:
+      case IR_CMD_AWAY_UP:
         // Arrow right (away +)
         break;
-      case 0x68:
+      case IR_CMD_HOME_DOWN:
         // "0" (home -)
         break;
-      case 0xB0:
+      case IR_CMD_AWAY_DOWN:
         // "C" (away +)
         break;
       default:

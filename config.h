@@ -1,3 +1,6 @@
+#ifndef _CONFIG
+#define _CONFIG
+
 // Max7219 display
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
 #define MAX_DEVICES 16
@@ -10,8 +13,13 @@
 #define SW_DURATION 15
 #define MAIN_DELAY 100
 
-// Button
-#define BUTTON_PIN 4
-
 // IR Receiver
 #define IR_RECEIVE_PIN 0
+
+#define IR_CMD_START_STOP 0xA8
+#define IR_CMD_HOME_UP 0xE0
+#define IR_CMD_AWAY_UP 0x90
+#define IR_CMD_HOME_DOWN 0x68
+#define IR_CMD_AWAY_DOWN 0xB0
+
+#endif // _CONFIG
