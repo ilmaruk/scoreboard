@@ -4,8 +4,11 @@
 // General
 #define LOOP_DELAY 100
 
+#define HOME_NAME "MARU"
+#define AWAY_NAME "CHICCO"
+
 // Stopwatch
-#define SW_DURATION 3
+#define SW_DURATION 10
 #define SW_RESET_DELAY 5000
 
 // Max7219 display
@@ -15,6 +18,13 @@
 #define CLK_PIN 18  // VSPI_SCK
 #define DATA_PIN 23 // VSPI_MOSI
 #define CS_PIN 5    // VSPI_SS
+
+#define ZONES 5
+#define AWAY_SCORE_ZONE 0
+#define AWAY_NAME_ZONE 1
+#define STOPWATCH_ZONE 2
+#define HOME_NAME_ZONE 3
+#define HOME_SCORE_ZONE 4
 
 // IR Receiver
 #define IR_RECEIVE_PIN 0

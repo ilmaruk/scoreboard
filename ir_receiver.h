@@ -4,6 +4,7 @@
 #include "config.h"
 
 #include "stopwatch.h"
+#include "score.h"
 
 void ir_init(int pin) {
     IrReceiver.begin(pin);
@@ -21,15 +22,19 @@ void ir_handle_command() {
         break;
       case IR_CMD_HOME_UP:
         // Arrow left (home +)
+        update_score(HOME_IDX, 1);
         break;
       case IR_CMD_AWAY_UP:
         // Arrow right (away +)
+        update_score(AWAY_IDX, 1);
         break;
       case IR_CMD_HOME_DOWN:
         // "0" (home -)
+        update_score(HOME_IDX, -1);
         break;
       case IR_CMD_AWAY_DOWN:
         // "C" (away +)
+        update_score(AWAY_IDX, -1);
         break;
       default:
         Serial.print("Unhandled remote command: ");
