@@ -4,11 +4,11 @@
 // General
 #define LOOP_DELAY 100
 
-#define HOME_NAME "MARU"
-#define AWAY_NAME "CHICCO"
+#define HOME_NAME "HOME"
+#define AWAY_NAME "AWAY"
 
 // Stopwatch
-#define SW_DURATION 10
+#define SW_DURATION 100
 #define SW_RESET_DELAY 5000
 
 // Max7219 display
