@@ -10,6 +10,7 @@
 #include "stopwatch.h"
 #include "ir_receiver.h"
 #include "score.h"
+#include "commands.h"
 
 bool btn_locked = false;
 int carousel_loops[2] = {0, 0};
@@ -63,6 +64,37 @@ void display_score(MD_Parola *p) {
   }
 }
 
+void handle_command(command_t cmd) {
+    switch (cmd) {
+      case COMMAND_START_STOP_SW:
+        // Play button
+        if (!sw_is_running()) {
+          sw_start();
+        } else {
+          sw_pause();
+        }
+        break;
+      case COMMAND_HOME_UP:
+        // Arrow left (home +)
+        update_score(HOME_IDX, 1);
+        carousel_loops[HOME_IDX] = 5;
+        break;
+      case COMMAND_AWAY_UP:
+        // Arrow right (away +)
+        update_score(AWAY_IDX, 1);
+        carousel_loops[AWAY_IDX] = 5;
+        break;
+      case COMMAND_HOME_DOWN:
+        // "0" (home -)
+        update_score(HOME_IDX, -1);
+        break;
+      case COMMAND_AWAY_DOWN:
+        // "C" (away +)
+        update_score(AWAY_IDX, -1);
+        break;
+    }
+}
+
 void setup() {
   Serial.begin(9600);
   Serial.println("Press the Play button to start ...");
@@ -82,7 +114,7 @@ void setup() {
 }
 
 void loop() {
-  ir_update(carousel_loops);
+  handle_command(ir_update());
 
   bool updated = sw_update();
 

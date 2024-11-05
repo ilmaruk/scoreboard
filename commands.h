@@ -1,0 +1,13 @@
+#ifndef _COMMANDS
+#define _COMMANDS
+
+enum command_t {
+  COMMAND_NONE,
+  COMMAND_START_STOP_SW,
+  COMMAND_HOME_UP,
+  COMMAND_HOME_DOWN,
+  COMMAND_AWAY_UP,
+  COMMAND_AWAY_DOWN
+};
+
+#endif // _COMMANDS

@@ -5,51 +5,44 @@
 
 #include "stopwatch.h"
 #include "score.h"
+#include "commands.h"
 
 void ir_init(int pin) {
     IrReceiver.begin(pin);
 }
 
-void ir_handle_command(int *loops) {
+command_t ir_handle_command() {
     switch (IrReceiver.decodedIRData.command) {
       case IR_CMD_START_STOP:
         // Play button
-        if (!sw_is_running()) {
-          sw_start();
-        } else {
-          sw_pause();
-        }
-        break;
+        return COMMAND_START_STOP_SW;
       case IR_CMD_HOME_UP:
         // Arrow left (home +)
-        update_score(HOME_IDX, 1);
-        loops[HOME_IDX] = 5;
-        break;
+        return COMMAND_HOME_UP;
       case IR_CMD_AWAY_UP:
         // Arrow right (away +)
-        update_score(AWAY_IDX, 1);
-        loops[AWAY_IDX] = 5;
-        break;
+        return COMMAND_AWAY_UP;
       case IR_CMD_HOME_DOWN:
         // "0" (home -)
-        update_score(HOME_IDX, -1);
-        break;
+        return COMMAND_HOME_DOWN;
       case IR_CMD_AWAY_DOWN:
         // "C" (away +)
-        update_score(AWAY_IDX, -1);
-        break;
+        return COMMAND_AWAY_DOWN;
       default:
         Serial.print("Unhandled remote command: ");
         Serial.println(IrReceiver.decodedIRData.command, HEX);
+      return COMMAND_NONE;
     }
 }
 
-void ir_update(int *loops) {
-  // Checks received an IR signal
+// Checks received an IR signal
+command_t ir_update() {
+  command_t cmd;
   if (IrReceiver.decode()) {
-    ir_handle_command(loops);
+    cmd = ir_handle_command();
     IrReceiver.resume();  // Receive the next value
   }
+  return cmd;
 }
 
 #endif // _IR_RECEIVER
