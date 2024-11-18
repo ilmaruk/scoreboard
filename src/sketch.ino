@@ -62,12 +62,12 @@ void display_teams(MD_Parola *p) {
 void display_score(MD_Parola *p) {
   // Home
   if (p->getZoneStatus(HOME_SCORE_ZONE)) {
-    p->displayZoneText(HOME_SCORE_ZONE, get_score_str(HOME_IDX), PA_CENTER, 0, 0, PA_NO_EFFECT);
+    p->displayZoneText(HOME_SCORE_ZONE, get_home_score_str(), PA_RIGHT, 0, 0, PA_NO_EFFECT);
   }
 
   // Away
   if (p->getZoneStatus(AWAY_SCORE_ZONE)) {
-    p->displayZoneText(AWAY_SCORE_ZONE, get_score_str(AWAY_IDX), PA_CENTER, 0, 0, PA_NO_EFFECT);
+    p->displayZoneText(AWAY_SCORE_ZONE, get_away_score_str(), PA_LEFT, 0, 0, PA_NO_EFFECT);
   }
 }
 
@@ -117,9 +117,9 @@ void setup() {
   display.setZone(HOME_NAME_ZONE, 6, 7);
   display.setZone(HOME_SCORE_ZONE, 5, 5);
   display.setFont(tiny_h6);
-  display.setInvert(HOME_SCORE_ZONE, 1);
+  // display.setInvert(HOME_SCORE_ZONE, 1);
   display.setFont(HOME_SCORE_ZONE, h6);
-  display.setInvert(AWAY_SCORE_ZONE, 1);
+  // display.setInvert(AWAY_SCORE_ZONE, 1);
   display.setFont(AWAY_SCORE_ZONE, h6);
 
   ir_init(IR_RECEIVE_PIN);
