@@ -16,7 +16,7 @@
       "id": "matrix1",
       "top": -172.2,
       "left": -669.24,
-      "attrs": { "chain": "8" }
+      "attrs": { "chain": "16" }
     },
     {
       "type": "wokwi-buzzer",

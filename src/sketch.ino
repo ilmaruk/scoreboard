@@ -10,33 +10,41 @@
 #include "stopwatch.h"
 #include "ir_receiver.h"
 #include "score.h"
+#include "commands.h"
 
 bool btn_locked = false;
-int carousel_loops[2] = {0, 0};
+int carousel_loops[3] = {0, 0, 0};
 
 MD_Parola display = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
+void display_goal(MD_Parola *p, int zone, int invert) {
+  p->setInvert(zone, invert);
+  p->displayZoneText(zone, "GOL!", PA_CENTER, 0, 700, PA_NO_EFFECT);
+}
+
 void display_sw(MD_Parola *p) {
-  char *sw = sw_display();
-  if (strstr(sw, ".") != NULL) {
-    p->setFont(STOPWATCH_ZONE, h6);
-    p->setInvert(STOPWATCH_ZONE, 1);
-  } else {
-    p->setFont(STOPWATCH_ZONE, newFont);
-    p->setInvert(STOPWATCH_ZONE, 0);
+  if (p->getZoneStatus(STOPWATCH_ZONE)) {
+    if (carousel_loops[2] > 0) {
+      display_goal(p, STOPWATCH_ZONE, (carousel_loops[STOPWATCH_ZONE]+1) % 2);
+      carousel_loops[2]--;
+    } else {
+      char *sw = sw_display();
+      if (strstr(sw, ".") != NULL) {
+        p->setFont(STOPWATCH_ZONE, tiny_h6);
+      } else {
+        p->setFont(STOPWATCH_ZONE, tiny_h6);
+      }
+      display.displayZoneText(STOPWATCH_ZONE, sw, PA_CENTER, 0, 0, PA_NO_EFFECT);
+    }
   }
-  display.displayZoneText(STOPWATCH_ZONE, sw, PA_CENTER, 0, 0, PA_NO_EFFECT);
 }
 
 void display_team(MD_Parola *p, int who, int zone, const char *name, textPosition_t align) {
   if (p->getZoneStatus(zone)) {
     if (carousel_loops[who] > 0) {
-      p->setFont(zone, h6);
-      p->setInvert(zone, carousel_loops[who] % 2);
-      p->displayZoneText(zone, "GOOOL!!", PA_CENTER, 0, 700, PA_NO_EFFECT);
+      display_goal(p, zone, carousel_loops[who] % 2);
       carousel_loops[who]--;
     } else {
-      p->setFont(zone, newFont);
       p->setInvert(zone, 0);
       display.displayZoneText(zone, name, align, 0, 0, PA_NO_EFFECT);
     }
@@ -45,22 +53,57 @@ void display_team(MD_Parola *p, int who, int zone, const char *name, textPositio
 
 void display_teams(MD_Parola *p) {
   // Home
-  display_team(p, HOME_IDX, HOME_NAME_ZONE, HOME_NAME, PA_LEFT);
+  display_team(p, HOME_IDX, HOME_NAME_ZONE, HOME_NAME, PA_CENTER);
 
   // Away
-  display_team(p, AWAY_IDX, AWAY_NAME_ZONE, AWAY_NAME, PA_RIGHT);
+  display_team(p, AWAY_IDX, AWAY_NAME_ZONE, AWAY_NAME, PA_CENTER);
 }
 
 void display_score(MD_Parola *p) {
   // Home
   if (p->getZoneStatus(HOME_SCORE_ZONE)) {
-    p->displayZoneText(HOME_SCORE_ZONE, get_score_str(HOME_IDX), PA_CENTER, 0, 0, PA_NO_EFFECT);
+    p->displayZoneText(HOME_SCORE_ZONE, get_home_score_str(), PA_RIGHT, 0, 0, PA_NO_EFFECT);
   }
 
   // Away
   if (p->getZoneStatus(AWAY_SCORE_ZONE)) {
-    p->displayZoneText(AWAY_SCORE_ZONE, get_score_str(AWAY_IDX), PA_CENTER, 0, 0, PA_NO_EFFECT);
+    p->displayZoneText(AWAY_SCORE_ZONE, get_away_score_str(), PA_LEFT, 0, 0, PA_NO_EFFECT);
   }
+}
+
+void handle_command(command_t cmd) {
+    switch (cmd) {
+      case COMMAND_START_STOP_SW:
+        // Play button
+        if (!sw_is_running()) {
+          sw_start();
+        } else {
+          sw_pause();
+        }
+        break;
+      case COMMAND_HOME_UP:
+        // Arrow left (home +)
+        update_score(HOME_IDX, 1);
+        carousel_loops[HOME_IDX] = 5;
+        carousel_loops[AWAY_IDX] = 5;
+        carousel_loops[2] = 5;
+        break;
+      case COMMAND_AWAY_UP:
+        // Arrow right (away +)
+        update_score(AWAY_IDX, 1);
+        carousel_loops[HOME_IDX] = 5;
+        carousel_loops[AWAY_IDX] = 5;
+        carousel_loops[2] = 5;
+        break;
+      case COMMAND_HOME_DOWN:
+        // "0" (home -)
+        update_score(HOME_IDX, -1);
+        break;
+      case COMMAND_AWAY_DOWN:
+        // "C" (away +)
+        update_score(AWAY_IDX, -1);
+        break;
+    }
 }
 
 void setup() {
@@ -68,12 +111,16 @@ void setup() {
   Serial.println("Press the Play button to start ...");
 
   display.begin(ZONES);
-  display.setZone(AWAY_SCORE_ZONE, 5, 5);
-  display.setZone(AWAY_NAME_ZONE, 0, 4);
-  display.setZone(STOPWATCH_ZONE, 6, 9);
-  display.setZone(HOME_NAME_ZONE, 11, 15);
-  display.setZone(HOME_SCORE_ZONE, 10, 10);
-  display.setFont(newFont);
+  display.setZone(AWAY_SCORE_ZONE, 2, 2);
+  display.setZone(AWAY_NAME_ZONE, 0, 1);
+  display.setZone(STOPWATCH_ZONE, 3, 4);
+  display.setZone(HOME_NAME_ZONE, 6, 7);
+  display.setZone(HOME_SCORE_ZONE, 5, 5);
+  display.setFont(tiny_h6);
+  // display.setInvert(HOME_SCORE_ZONE, 1);
+  display.setFont(HOME_SCORE_ZONE, h6);
+  // display.setInvert(AWAY_SCORE_ZONE, 1);
+  display.setFont(AWAY_SCORE_ZONE, h6);
 
   ir_init(IR_RECEIVE_PIN);
 
@@ -82,7 +129,7 @@ void setup() {
 }
 
 void loop() {
-  ir_update(carousel_loops);
+  handle_command(ir_update());
 
   bool updated = sw_update();
 
@@ -95,8 +142,10 @@ void loop() {
     if (updated && sw_is_over()) {
       while (!display.displayAnimate()) {};
 
+#ifdef BUZZER_PIN
       // Play a siren at the end of the period
-      tone(2, 400, 1500);
+      tone(BUZZER_PIN, 400, 1500);
+#endif
 
       // Block everything for 5 seconds and then reset the stopwatch
       delay(SW_RESET_DELAY);

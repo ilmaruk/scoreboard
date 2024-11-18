@@ -62,13 +62,13 @@ char *sw_display() {
 
   int remaining = _sw_duration - _sw_elapsed;
   if (remaining < 60000) {
-    // Under the minute, show seconds and cents
-    remaining = ceil(remaining / 10.); // in cents
-    sprintf(buffer, "| %02d.%02d |", (int)remaining/100, remaining%100);
+    // Under the minute, show seconds and decimnals
+    remaining = ceil(remaining / 100.); // in decimals
+    sprintf(buffer, "%02d.%d |", (int)remaining/10, remaining%10);
   } else {
     // above the minute, show minutes and seconds
     remaining = ceil(remaining / 1000.); // in seconds
-    sprintf(buffer, "| %02d:%02d |", (int)remaining/60, remaining%60);
+    sprintf(buffer, "%d:%02d", (int)remaining/60, remaining%60);
   }
 
   return buffer;

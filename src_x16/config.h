@@ -4,10 +4,8 @@
 // General
 #define LOOP_DELAY 100
 
-#define HOME_NAME "MRU"
-#define AWAY_NAME "CHC"
-
-#define BUZZER_PIN 2
+#define HOME_NAME "HOME"
+#define AWAY_NAME "AWAY"
 
 // Stopwatch
 #define SW_DURATION 100
@@ -15,7 +13,7 @@
 
 // Max7219 display
 #define HARDWARE_TYPE MD_MAX72XX::PAROLA_HW
-#define MAX_DEVICES 8
+#define MAX_DEVICES 16
 
 #define CLK_PIN 18  // VSPI_SCK
 #define DATA_PIN 23 // VSPI_MOSI
