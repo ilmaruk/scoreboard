@@ -7,13 +7,16 @@
 
 #include "clock_font.h"
 
-#include "stopwatch.h"
+#include "Timer.h"
+
 #include "ir_receiver.h"
 #include "score.h"
 #include "commands.h"
 
 bool btn_locked = false;
 int carousel_loops[3] = {0, 0, 0};
+
+Timer timer(SW_DURATION);
 
 MD_Parola display = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
@@ -28,7 +31,7 @@ void display_sw(MD_Parola *p) {
       display_goal(p, STOPWATCH_ZONE, (carousel_loops[STOPWATCH_ZONE]+1) % 2);
       carousel_loops[2]--;
     } else {
-      char *sw = sw_display();
+      char *sw = timer.display();
       if (strstr(sw, ".") != NULL) {
         p->setFont(STOPWATCH_ZONE, tiny_h6);
       } else {
@@ -75,10 +78,10 @@ void handle_command(command_t cmd) {
     switch (cmd) {
       case COMMAND_START_STOP_SW:
         // Play button
-        if (!sw_is_running()) {
-          sw_start();
+        if (!timer.is_running()) {
+          timer.start(millis());
         } else {
-          sw_pause();
+          timer.pause();
         }
         break;
       case COMMAND_HOME_UP:
@@ -124,14 +127,13 @@ void setup() {
 
   ir_init(IR_RECEIVE_PIN);
 
-  sw_init(SW_DURATION);
   display_sw(&display);
 }
 
 void loop() {
   handle_command(ir_update());
 
-  bool updated = sw_update();
+  bool updated = timer.update(millis());
 
   if (display.displayAnimate()) {
     display_teams(&display);
@@ -139,7 +141,7 @@ void loop() {
 
     display_sw(&display);
 
-    if (updated && sw_is_over()) {
+    if (updated && timer.is_over()) {
       while (!display.displayAnimate()) {};
 
 #ifdef BUZZER_PIN
@@ -149,7 +151,7 @@ void loop() {
 
       // Block everything for 5 seconds and then reset the stopwatch
       delay(SW_RESET_DELAY);
-      sw_reset();
+      timer.reset();
     }
   }
 

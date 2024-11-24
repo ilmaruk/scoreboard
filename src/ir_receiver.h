@@ -3,7 +3,6 @@
 
 #include "config.h"
 
-#include "stopwatch.h"
 #include "score.h"
 #include "commands.h"
 
